@@ -84,6 +84,8 @@
         <div class="stat"><span class="stat-val">Multi</span><span class="stat-lbl">Folder Queue</span></div>
         <div class="stat-divider"></div>
         <div class="stat"><span class="stat-val">Free</span><span class="stat-lbl">To Use</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-val stat-val--beta">Beta</span><span class="stat-lbl">Stage</span></div>
       </div>
     </div>
   </section>
@@ -139,10 +141,10 @@
             <p>The full desktop app scans loose vehicle folders directly — no GTA V installation required. Queue multiple folders, name your resource, pick an output folder, and click Organise. TidyV handles the rest — detecting models, sorting files, and writing a complete FiveM resource layout.</p>
             <p class="download-req">Requires Windows · .NET Framework 4.8 (included in Windows 10 1903+ and Windows 11)</p>
             <div class="download-actions">
-              <a class="btn btn-primary btn-download" id="btnRelease" href="https://github.com/DamienSmith428/tidyV-download/releases/latest/download/TidyV.exe" target="_blank" rel="noopener">
+              <button class="btn btn-primary btn-download" id="btnRelease" onclick="openBetaModal()">
                 <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                 Download TidyV.exe
-              </a>
+              </button>
               <a class="btn btn-secondary" href="https://github.com/DamienSmith428/tidyV-download/releases/latest" target="_blank" rel="noopener">View Release Notes</a>
             </div>
           </div>
@@ -205,6 +207,49 @@
     </div>
   </section>
 
+  <!-- ── Beta Warning Modal ─────────────────────────────────────────── -->
+  <div id="betaModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-warning-bar">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2L1 21h22L12 2zm0 3.5L20.5 19h-17L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+        BETA SOFTWARE — READ BEFORE DOWNLOADING
+      </div>
+      <h2 class="modal-title" id="modalTitle">Important Beta Warning</h2>
+
+      <div class="modal-body">
+        <p>TidyV is currently in <strong>Beta</strong>. It has been tested against several common vehicle pack structures, but <strong>some pack layouts may still cause files to be missed or misorganised.</strong></p>
+
+        <div class="modal-disclaimer">
+          <p><strong>DS Customs is NOT responsible for any lost, missing, or corrupted files.</strong> TidyV copies files — it does not delete or modify your originals — but you are solely responsible for maintaining backups of your own data.</p>
+        </div>
+
+        <p>Before using TidyV, you <strong>must back up your vehicle resources</strong>. If you experience missing files after running the tool, please open an issue on GitHub so it can be investigated and fixed.</p>
+
+        <a href="https://github.com/DamienSmith428/tidyV-download/issues" target="_blank" rel="noopener" class="modal-issue-link">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          Report an Issue on GitHub
+        </a>
+      </div>
+
+      <label class="modal-confirm-label">
+        <input type="checkbox" id="betaConfirmCheck" onchange="onBetaCheckChange()" />
+        <span>I have backed up my files and understand DS Customs is not responsible for any data loss.</span>
+      </label>
+
+      <div class="modal-actions">
+        <a id="modalDownloadBtn"
+           class="btn btn-primary btn-download modal-dl-btn modal-dl-btn--disabled"
+           href="https://github.com/DamienSmith428/tidyV-download/releases/latest/download/TidyV.exe"
+           target="_blank" rel="noopener"
+           onclick="return onModalDownload()">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          Download TidyV.exe
+        </a>
+        <button class="btn btn-secondary" onclick="closeBetaModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <img src="assets/tidyV.png" alt="TidyV" class="footer-logo" />
@@ -218,5 +263,32 @@
 
   <script src="js/particles.js"></script>
   <script src="js/version.js"></script>
+  <script>
+    function openBetaModal() {
+      document.getElementById('betaConfirmCheck').checked = false;
+      document.getElementById('modalDownloadBtn').classList.add('modal-dl-btn--disabled');
+      document.getElementById('betaModal').classList.add('modal-overlay--open');
+    }
+    function closeBetaModal() {
+      document.getElementById('betaModal').classList.remove('modal-overlay--open');
+    }
+    function onBetaCheckChange() {
+      var checked = document.getElementById('betaConfirmCheck').checked;
+      var btn = document.getElementById('modalDownloadBtn');
+      if (checked) btn.classList.remove('modal-dl-btn--disabled');
+      else btn.classList.add('modal-dl-btn--disabled');
+    }
+    function onModalDownload() {
+      if (document.getElementById('modalDownloadBtn').classList.contains('modal-dl-btn--disabled')) {
+        return false;
+      }
+      closeBetaModal();
+      return true;
+    }
+    // Close on backdrop click
+    document.getElementById('betaModal').addEventListener('click', function(e) {
+      if (e.target === this) closeBetaModal();
+    });
+  </script>
 </body>
 </html>
