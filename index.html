@@ -225,6 +225,11 @@
 
         <p>Before using TidyV, you <strong>must back up your vehicle resources</strong>. If you experience missing files after running the tool, please open an issue on GitHub so it can be investigated and fixed.</p>
 
+        <div class="modal-info-box">
+          <p><strong>What happens if files can't be matched?</strong><br>
+          If TidyV cannot match a file to a vehicle model, it will save those files to an <code>Unresolved/</code> folder next to your output — preserving the original folder structure from your pack exactly. These files are <strong>not</strong> placed inside the resource and won't be loaded by FiveM. When opening a GitHub issue, please include a screenshot or description of what's inside your <code>Unresolved/</code> folder alongside your pack's folder structure — this helps us identify the layout difference and fix it.</p>
+        </div>
+
         <a href="https://github.com/DamienSmith428/tidyV-download/issues" target="_blank" rel="noopener" class="modal-issue-link">
           <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
           Report an Issue on GitHub
